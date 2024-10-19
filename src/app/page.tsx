@@ -47,8 +47,10 @@ const Home = () => {
           </div>
           <div className="md:w-1/2 mt-10 md:mt-0" data-aos="fade-left">
             <Image
-              src="https://unsplash.com/photos/outdoor-lamps-turned-on-XbwHrt87mQ0"
+              src=""
               alt="Rent Forecast"
+              width={1500}
+              height={800}
               className="rounded-lg shadow-lg"
             />
           </div>
