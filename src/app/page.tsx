@@ -5,6 +5,7 @@ import "aos/dist/aos.css";
 import AOS from "aos";
 import Navbar from "./components/Navbar";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const Home = () => {
   const router = useRouter(); // Use useRouter for navigation
@@ -45,7 +46,7 @@ const Home = () => {
             </Button>
           </div>
           <div className="md:w-1/2 mt-10 md:mt-0" data-aos="fade-left">
-            <img
+            <Image
               src="https://unsplash.com/photos/outdoor-lamps-turned-on-XbwHrt87mQ0"
               alt="Rent Forecast"
               className="rounded-lg shadow-lg"
