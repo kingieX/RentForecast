@@ -1,10 +1,10 @@
 import DashboardLayout from "@/app/components/DashboardLayout";
-import UserProfile from "./_components/UserProfile";
+import UserFeedback from "./_components/UserFeedback";
 
-export default function EditProfile() {
+export default function UserFeedbackPage() {
   return (
     <DashboardLayout>
-      <UserProfile />
+      <UserFeedback />
     </DashboardLayout>
   );
 }

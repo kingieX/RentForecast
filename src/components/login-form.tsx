@@ -84,7 +84,7 @@ export function LoginForm() {
 
         // Step 3: Redirect to dashboard
         setTimeout(() => {
-          router.push("/dashboard");
+          router.push("/dashboard/rent-forecast");
         }, 2000);
       } catch (error: any) {
         console.error("Error logging in:", error);

@@ -31,7 +31,10 @@ const Navbar = () => {
           <Link href="/" className="text-gray-700 hover:text-blue-600">
             Home
           </Link>
-          <Link href="/dashboard" className="text-gray-700 hover:text-blue-600">
+          <Link
+            href="/dashboard/rent-forecast"
+            className="text-gray-700 hover:text-blue-600"
+          >
             Forecast price
           </Link>
           <Link
@@ -73,7 +76,7 @@ const Navbar = () => {
             Home
           </Link>
           <Link
-            href="/dashboard"
+            href="/dashboard/rent-forecast"
             className="block text-gray-700 hover:text-blue-600"
           >
             Forecast price
