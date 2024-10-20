@@ -98,6 +98,14 @@ const PropertyList = () => {
     }
   };
 
+  // Currency formatter function
+  const formatCurrency = (amount: number) => {
+    return `₦${amount.toLocaleString("en-NG", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    })}`;
+  };
+
   return (
     <div className="container mx-auto px-4 py-8 lg:py-6">
       <div className="flex justify-between items-center mb-4">
@@ -132,7 +140,8 @@ const PropertyList = () => {
                 {property.toilet} Toilet | {property.parking_space} Parking
                 space
               </p>
-              <p>₦{property.price}</p>
+              {/* <p>₦{property.price}</p> */}
+              <p>{formatCurrency(property.price)}</p>
               <p>Status: {property.current_status}</p>
 
               {/* Edit and Delete Icons */}
