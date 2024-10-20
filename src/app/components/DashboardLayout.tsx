@@ -126,17 +126,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 Overview
               </Link>
               <Link
-                href="/dashboard/property-listings"
-                className={`p-2 rounded ${
-                  isActive("/dashboard/property-listings")
-                    ? "bg-blue-600"
-                    : "hover:bg-blue-600"
-                }`}
-                onClick={() => setSidebarOpen(false)} // Close sidebar on click
-              >
-                Property Listings
-              </Link>
-              <Link
                 href="/dashboard/rent-forecast"
                 className={`p-2 rounded ${
                   isActive("/dashboard/rent-forecast")
@@ -147,6 +136,18 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               >
                 Rent Forecast
               </Link>
+              <Link
+                href="/dashboard/property-listings"
+                className={`p-2 rounded ${
+                  isActive("/dashboard/property-listings")
+                    ? "bg-blue-600"
+                    : "hover:bg-blue-600"
+                }`}
+                onClick={() => setSidebarOpen(false)} // Close sidebar on click
+              >
+                Property Listings
+              </Link>
+
               <Link
                 href="/dashboard/historical-data"
                 className={`p-2 rounded ${
