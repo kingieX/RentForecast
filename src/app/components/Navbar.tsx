@@ -32,9 +32,12 @@ const Navbar = () => {
             Home
           </Link>
           <Link href="/dashboard" className="text-gray-700 hover:text-blue-600">
-            Dashboard
+            Forecast price
           </Link>
-          <Link href="/listings" className="text-gray-700 hover:text-blue-600">
+          <Link
+            href="/property-listing"
+            className="text-gray-700 hover:text-blue-600"
+          >
             Property Listings
           </Link>
           <Link
@@ -73,10 +76,10 @@ const Navbar = () => {
             href="/dashboard"
             className="block text-gray-700 hover:text-blue-600"
           >
-            Dashboard
+            Forecast price
           </Link>
           <Link
-            href="/listings"
+            href="/property-listing"
             className="block text-gray-700 hover:text-blue-600"
           >
             Property Listings

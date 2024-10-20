@@ -92,7 +92,7 @@ export default function HelpSupport() {
             <div className="mt-6">
               <div className="flex items-center justify-center mb-4">
                 <FaPhoneAlt className="text-blue-500 mr-2" />
-                <span className="text-gray-700">+234-800-123-4567</span>
+                <span className="text-gray-700">+234-704-112-8075</span>
               </div>
               <div className="flex items-center justify-center">
                 <FaEnvelope className="text-blue-500 mr-2" />

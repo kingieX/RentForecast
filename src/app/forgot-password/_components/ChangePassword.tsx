@@ -13,79 +13,55 @@ import { Label } from "@/components/ui/label";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 // Environment variable for the base URL
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export function SignUpForm() {
+export function ChangePassword() {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // Form validation schema using Yup
   const validationSchema = Yup.object({
-    fullname: Yup.string().required("Full name is required"),
-    phone_no: Yup.string().required("Phone number is required"),
     email: Yup.string()
       .email("Invalid email format")
       .required("Email is required"),
-    password: Yup.string()
+    new_password: Yup.string()
       .min(6, "Password must be at least 6 characters")
-      .required("Password is required"),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password"), undefined], "Passwords must match")
-      .required("Confirm your password"),
+      .required("New password is required"),
+    confirmNewPassword: Yup.string()
+      .oneOf([Yup.ref("new_password"), undefined], "Passwords must match")
+      .required("Confirm your new password"),
   });
 
-  // Formik for form handling
   const formik = useFormik({
     initialValues: {
-      fullname: "",
-      phone_no: "",
       email: "",
-      password: "",
-      confirmPassword: "",
+      new_password: "",
+      confirmNewPassword: "",
     },
     validationSchema,
     onSubmit: async (values) => {
-      setIsLoading(true); // Set loading state to true
+      setIsLoading(true);
       try {
-        // API request to register the user
-        const response = await axios.post(`${BASE_URL}/user/register`, {
-          fullname: values.fullname,
-          phone_no: values.phone_no,
+        const response = await axios.post(`${BASE_URL}/user/change-password`, {
           email: values.email,
-          password: values.password,
-          role: "user", // Assume a default role for now
-          is_active: true,
-          provider: null,
-          provider_id: null,
-          avatar_url: null,
+          new_password: values.new_password,
         });
 
-        // Store user data in cookies (user_id and fullname)
-        const { user_id, fullname } = response.data;
-        Cookies.set("user_id", user_id);
-        Cookies.set("fullname", fullname);
-
-        // Set success message
-        setSuccessMessage("Account created successfully!");
-
-        // Redirect to another page after successful signup
+        setSuccessMessage("Password changed successfully!");
         setTimeout(() => {
-          router.push("/login");
-        }, 1000);
+          router.push("/login"); // Redirect to login page or another page
+        }, 2000);
       } catch (error: any) {
-        console.error("Error signing up:", error);
-        // Handle the error (e.g., show an error message)
+        console.error("Error changing password:", error);
         if (error.response && error.response.data) {
           setErrorMessage(
             error.response.data.message ||
@@ -95,7 +71,7 @@ export function SignUpForm() {
           setErrorMessage("Something went wrong, please try again.");
         }
       } finally {
-        setIsLoading(false); // Set loading state back to false
+        setIsLoading(false);
       }
     },
   });
@@ -105,62 +81,14 @@ export function SignUpForm() {
       <Card className="mx-auto w-full max-w-md p-8 bg-white rounded-lg lg:shadow-lg">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-blue-500 text-center">
-            Sign Up
+            Change Password
           </CardTitle>
           <CardDescription className="text-center text-gray-500">
-            Create a new account by filling in your details below
+            Enter your email and new password below
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={formik.handleSubmit} className="grid gap-6">
-            {/* Full Name Input */}
-            <div className="grid gap-2">
-              <Label htmlFor="fullname" className="text-sm font-semibold">
-                Full Name
-              </Label>
-              <Input
-                id="fullname"
-                name="fullname"
-                type="text"
-                placeholder="Enter your fullname"
-                value={formik.values.fullname}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className={`border-2 ${
-                  formik.touched.fullname && formik.errors.fullname
-                    ? "border-red-500"
-                    : "border-gray-300"
-                } focus:ring focus:ring-blue-500 rounded-lg px-4 py-2`}
-              />
-              {formik.touched.fullname && formik.errors.fullname && (
-                <p className="text-red-500 text-sm">{formik.errors.fullname}</p>
-              )}
-            </div>
-
-            {/* Phone Number */}
-            <div className="grid gap-2">
-              <Label htmlFor="phone_no" className="text-sm font-semibold">
-                Phone Number
-              </Label>
-              <Input
-                id="phone_no"
-                name="phone_no"
-                type="tel"
-                placeholder="+234 903-000-0000"
-                value={formik.values.phone_no}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className={`border-2 ${
-                  formik.touched.phone_no && formik.errors.phone_no
-                    ? "border-red-500"
-                    : "border-gray-300"
-                } focus:ring focus:ring-blue-500 rounded-lg px-4 py-2`}
-              />
-              {formik.touched.phone_no && formik.errors.phone_no && (
-                <p className="text-red-500 text-sm">{formik.errors.phone_no}</p>
-              )}
-            </div>
-
             {/* Email Input */}
             <div className="grid gap-2">
               <Label htmlFor="email" className="text-sm font-semibold">
@@ -185,20 +113,20 @@ export function SignUpForm() {
               )}
             </div>
 
-            {/* Password Input */}
+            {/* New Password Input */}
             <div className="grid gap-2 relative">
-              <Label htmlFor="password" className="text-sm font-semibold">
-                Password
+              <Label htmlFor="newPassword" className="text-sm font-semibold">
+                New Password
               </Label>
               <Input
-                id="password"
-                name="password"
+                id="new_password"
+                name="new_password"
                 type={showPassword ? "text" : "password"}
-                value={formik.values.password}
+                value={formik.values.new_password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className={`border-2 ${
-                  formik.touched.password && formik.errors.password
+                  formik.touched.new_password && formik.errors.new_password
                     ? "border-red-500"
                     : "border-gray-300"
                 } focus:ring focus:ring-blue-500 rounded-lg px-4 py-2`}
@@ -209,29 +137,31 @@ export function SignUpForm() {
               >
                 {showPassword ? <EyeOff /> : <Eye />}
               </div>
-              {formik.touched.password && formik.errors.password && (
-                <p className="text-red-500 text-sm">{formik.errors.password}</p>
+              {formik.touched.new_password && formik.errors.new_password && (
+                <p className="text-red-500 text-sm">
+                  {formik.errors.new_password}
+                </p>
               )}
             </div>
 
-            {/* Confirm Password Input */}
+            {/* Confirm New Password Input */}
             <div className="grid gap-2 relative">
               <Label
-                htmlFor="confirmPassword"
+                htmlFor="confirmNewPassword"
                 className="text-sm font-semibold"
               >
-                Confirm Password
+                Confirm New Password
               </Label>
               <Input
-                id="confirmPassword"
-                name="confirmPassword"
+                id="confirmNewPassword"
+                name="confirmNewPassword"
                 type={showConfirmPassword ? "text" : "password"}
-                value={formik.values.confirmPassword}
+                value={formik.values.confirmNewPassword}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className={`border-2 ${
-                  formik.touched.confirmPassword &&
-                  formik.errors.confirmPassword
+                  formik.touched.confirmNewPassword &&
+                  formik.errors.confirmNewPassword
                     ? "border-red-500"
                     : "border-gray-300"
                 } focus:ring focus:ring-blue-500 rounded-lg px-4 py-2`}
@@ -242,22 +172,21 @@ export function SignUpForm() {
               >
                 {showConfirmPassword ? <EyeOff /> : <Eye />}
               </div>
-              {formik.touched.confirmPassword &&
-                formik.errors.confirmPassword && (
+              {formik.touched.confirmNewPassword &&
+                formik.errors.confirmNewPassword && (
                   <p className="text-red-500 text-sm">
-                    {formik.errors.confirmPassword}
+                    {formik.errors.confirmNewPassword}
                   </p>
                 )}
             </div>
 
-            {/* Sign Up Button */}
+            {/* Change Password Button */}
             <Button
               type="submit"
-              disabled={isLoading} // Disable button when loading
+              disabled={isLoading}
               className="w-full bg-blue-500 text-white hover:bg-blue-600 transition duration-300 rounded-lg py-3 font-semibold"
             >
-              {isLoading ? "Signing Up..." : "Sign Up"}{" "}
-              {/* Show loading text */}
+              {isLoading ? "Changing Password..." : "Change Password"}
             </Button>
 
             {/* Success and Error Messages */}
@@ -269,9 +198,9 @@ export function SignUpForm() {
             )}
           </form>
 
-          {/* Log In Link */}
+          {/* Back to Login Link */}
           <div className="mt-6 text-center text-gray-500 text-sm">
-            Already have an account?{" "}
+            Remembered your password?{" "}
             <Link href="/login" className="text-blue-500 underline">
               Log in
             </Link>
@@ -281,3 +210,5 @@ export function SignUpForm() {
     </div>
   );
 }
+
+export default ChangePassword;
