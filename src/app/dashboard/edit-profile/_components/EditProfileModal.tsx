@@ -32,6 +32,7 @@ const EditProfileModal = ({
   const [fullname, setFullname] = useState<string>(user.fullname);
   const [phone_no, setPhone] = useState<string>(user.phone_no);
   const [avatar_url, setAvatar] = useState<string>(user.avatar_url);
+  const [newAvatar, setNewAvatar] = useState<File | null>(null); // State for new image file
   const [new_password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
@@ -40,16 +41,32 @@ const EditProfileModal = ({
   const handleSave = async () => {
     setIsLoading(true);
     try {
-      const token = Cookies.get("access_token"); // Get the access token from cookies
+      const token = Cookies.get("access_token");
       const headers = {
-        Authorization: `Bearer ${token}`, // Set the Authorization header
+        Authorization: `Bearer ${token}`,
       };
 
+      let uploadedAvatarUrl = avatar_url; // Use existing avatar URL by default
+
+      // Handle avatar image upload if a new image is selected
+      if (newAvatar) {
+        const formData = new FormData();
+        formData.append("file", newAvatar);
+        formData.append("upload_preset", "your_upload_preset"); // Add your cloud storage preset
+        formData.append("cloud_name", "your_cloud_name"); // Add your cloud storage name
+
+        const uploadResponse = await axios.post(
+          "https://api.cloudinary.com/v1_1/your_cloud_name/image/upload",
+          formData
+        );
+        uploadedAvatarUrl = uploadResponse.data.secure_url; // Get uploaded image URL
+      }
+
       // PUT request to update profile details
-      const response = await axios.put(
+      await axios.put(
         `${process.env.NEXT_PUBLIC_BASE_URL}/user/${userId}`,
         {
-          avatar_url: avatar_url || "",
+          avatar_url: uploadedAvatarUrl,
           fullname,
           phone_no,
           is_active: true,
@@ -57,29 +74,23 @@ const EditProfileModal = ({
         { headers }
       );
 
-      console.log("PUT request response:", response.data); // Log the response data
-
+      // Change password if new password is provided
       if (new_password && new_password === confirmPassword) {
-        // POST request to change password
-        const passwordResponse = await axios.post(
+        await axios.post(
           `${process.env.NEXT_PUBLIC_BASE_URL}/user/change-password`,
           {
             email: user.email,
             new_password,
           },
-          { headers } // Ensure the token is sent here as well
+          { headers }
         );
-        console.log("Password change response:", passwordResponse.data); // Log the response data for password change
       }
 
-      fetchUserDetails(userId); // Refresh user details
-      setSuccessMessage("Profile details updated!");
-      setIsEditing(false); // Close modal
+      fetchUserDetails(userId);
+      setSuccessMessage("Profile updated successfully!");
+      setIsEditing(false);
     } catch (error) {
-      console.error(
-        "Error updating profile:",
-        (error as any)?.response?.data || error
-      ); // Log the error response
+      console.error("Error updating profile:", error);
       setErrorMessage("Error updating profile");
     } finally {
       setIsLoading(false);
@@ -88,9 +99,28 @@ const EditProfileModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white lg:max-w-xl  max-w-sm w-full rounded-lg p-6 shadow-lg">
+      <div className="bg-white lg:max-w-xl max-w-sm w-full rounded-lg p-6 shadow-lg">
         <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
 
+        {/* Avatar Upload */}
+        {/* <div className="mb-4 text-center">
+          <label className="block mb-2">Update Profile Image</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) =>
+              setNewAvatar(e.target.files ? e.target.files[0] : null)
+            }
+            className="block w-full text-sm text-gray-500
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-full file:border-0
+              file:text-sm file:font-semibold
+              file:bg-blue-50 file:text-blue-700
+              hover:file:bg-blue-100"
+          />
+        </div> */}
+
+        {/* Fullname Input */}
         <div className="mb-4">
           <Input
             placeholder="Fullname"
@@ -98,6 +128,8 @@ const EditProfileModal = ({
             onChange={(e) => setFullname(e.target.value)}
           />
         </div>
+
+        {/* Phone Number Input */}
         <div className="mb-4">
           <Input
             placeholder="Phone"
@@ -105,6 +137,8 @@ const EditProfileModal = ({
             onChange={(e) => setPhone(e.target.value)}
           />
         </div>
+
+        {/* Password Input */}
         <div className="mb-4">
           <Input
             placeholder="Password"
@@ -113,6 +147,8 @@ const EditProfileModal = ({
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+
+        {/* Confirm Password Input */}
         <div className="mb-4">
           <Input
             placeholder="Confirm Password"
@@ -122,10 +158,11 @@ const EditProfileModal = ({
           />
         </div>
 
+        {/* Action Buttons */}
         <div className="flex justify-end space-x-4">
           <Button
             onClick={() => setIsEditing(false)}
-            className="bg-gray-300 text-black"
+            className="bg-gray-300 text-black hover:border hover:text-red-500"
           >
             Cancel
           </Button>
@@ -137,6 +174,7 @@ const EditProfileModal = ({
             {isLoading ? "Saving..." : "Save Changes"}
           </Button>
         </div>
+
         {/* Success and Error Messages */}
         {successMessage && (
           <p className="text-green-500 text-center">{successMessage}</p>
