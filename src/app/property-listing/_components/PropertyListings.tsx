@@ -9,6 +9,8 @@ import {
   FaBuilding,
 } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import Image from "next/image";
 
 interface Property {
   id: number;
@@ -27,7 +29,7 @@ export default function PropertyListings() {
       location: "Abakaliki, Ebonyi",
       price: "₦400,000/year",
       type: "Apartment",
-      image: "https://source.unsplash.com/random/400x300/?apartment",
+      image: "/assets/house1.jpeg",
     },
     {
       id: 2,
@@ -73,9 +75,11 @@ export default function PropertyListings() {
               className="p-6 bg-white rounded-lg shadow-lg transition-transform hover:scale-105"
               data-aos="fade-up"
             >
-              <img
+              <Image
                 src={property.image}
                 alt={property.title}
+                width={2000}
+                height={2000}
                 className="w-full h-48 object-cover rounded-t-lg"
               />
               <div className="mt-4">
@@ -111,12 +115,14 @@ export default function PropertyListings() {
             Add your property to our listings and reach thousands of potential
             tenants.
           </p>
-          <Button
-            className="bg-white border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition duration-300 px-6 py-3 rounded-lg font-semibold"
-            // href="/property-listing/add"
-          >
-            Add New Property
-          </Button>
+          <Link href="/dashboard/property-listings">
+            <Button
+              className="bg-white border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition duration-300 px-6 py-3 rounded-lg font-semibold"
+              // href="/property-listing/add"
+            >
+              Add New Property
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
