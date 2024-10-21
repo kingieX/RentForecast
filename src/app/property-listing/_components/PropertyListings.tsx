@@ -37,7 +37,8 @@ export default function PropertyListings() {
       location: "Ezzamgbo, Ebonyi",
       price: "₦1.7m/year",
       type: "Bungalow",
-      image: "https://source.unsplash.com/random/400x300/?house",
+      image:
+        "https://unsplash.com/photos/a-modern-kitchen-with-marble-counter-tops-and-stainless-steel-appliances-70U9U4UG_bY",
     },
     {
       id: 3,

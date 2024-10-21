@@ -48,7 +48,7 @@ const Home = () => {
           </div>
           <div className="md:w-1/2 mt-10 md:mt-0" data-aos="fade-left">
             <Image
-              src="/assets/hero.jpeg"
+              src="/assets/hero.jpg"
               alt="Rent Forecast"
               width={2000}
               height={2000}
