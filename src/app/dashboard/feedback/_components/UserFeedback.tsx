@@ -11,18 +11,18 @@ const UserFeedback = () => {
   const [feedbacks, setFeedbacks] = useState([
     {
       id: 1,
-      name: "Alice Johnson",
+      name: "Alice Ebube",
       feedback:
         "This service is fantastic! It made my house hunting so much easier.",
     },
     {
       id: 2,
-      name: "John Doe",
+      name: "John Nwachukwu",
       feedback: "Excellent platform! I found the perfect apartment.",
     },
     {
       id: 3,
-      name: "Jane Smith",
+      name: "Mrs Jane Obialor",
       feedback: "Great experience! Highly recommend to everyone.",
     },
     // Add more feedback objects as needed

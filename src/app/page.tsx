@@ -6,6 +6,7 @@ import AOS from "aos";
 import Navbar from "./components/Navbar";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import React from "react";
 
 const Home = () => {
   const router = useRouter(); // Use useRouter for navigation

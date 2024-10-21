@@ -67,7 +67,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     <div className="flex min-h-screen">
       {/* Toggle button for mobile view */}
       <button
-        className="lg:hidden p-4 fixed top-4 left-4 z-50"
+        className="lg:hidden p-4 fixed w-full bg-white top-4 left-4 z-50"
         onClick={toggleSidebar}
       >
         {isSidebarOpen ? (
@@ -106,11 +106,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Sidebar */}
       <aside
         ref={sidebarRef}
-        className={`fixed z-50 lg:relative lg:flex w-64 bg-blue-500 text-white transition-transform transform ${
+        className={`fixed top-0 left-0 z-50 w-64 bg-blue-500 text-white h-screen transition-transform transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0`}
+        } lg:translate-x-0 lg:relative lg:flex`}
       >
-        <div className="flex flex-col justify-between h-screen">
+        <div className="flex flex-col justify-between h-full">
           <div>
             <div className="p-4 font-bold text-center text-xl">Dashboard</div>
             <nav className="flex flex-col gap-4 p-4">
@@ -228,7 +228,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       </aside>
 
       {/* Main content area */}
-      <main className="flex-1 p-6 bg-gray-100">{children}</main>
+      <main className="flex-1 px-6 py-4 bg-gray-100 overflow-y-auto">
+        {children}
+      </main>
     </div>
   );
 }
