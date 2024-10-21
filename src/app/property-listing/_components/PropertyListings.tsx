@@ -29,7 +29,7 @@ export default function PropertyListings() {
       location: "Abakaliki, Ebonyi",
       price: "₦400,000/year",
       type: "Apartment",
-      image: "/assets/house1.jpeg",
+      image: "/assets/hero.jpg",
     },
     {
       id: 2,
@@ -37,8 +37,7 @@ export default function PropertyListings() {
       location: "Ezzamgbo, Ebonyi",
       price: "₦1.7m/year",
       type: "Bungalow",
-      image:
-        "https://unsplash.com/photos/a-modern-kitchen-with-marble-counter-tops-and-stainless-steel-appliances-70U9U4UG_bY",
+      image: "/assets/house2.jpeg",
     },
     {
       id: 3,
@@ -46,7 +45,7 @@ export default function PropertyListings() {
       location: "Mile 50, Abakaliki",
       price: "₦850,000/year",
       type: "Office",
-      image: "https://source.unsplash.com/random/400x300/?office",
+      image: "/assets/house3.jpeg",
     },
   ]);
 
